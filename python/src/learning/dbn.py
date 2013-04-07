@@ -97,6 +97,7 @@ class DBN(object):
     # shape (batch_size,num_pixels) (i.e matrix of rasterized images).
     # This will generate a matrix of shape (20,32*4*4) = (20,512)
         self.layer2_input = self.layer1.output.flatten(2)
+        self.layer2=HiddenLayer(rng,input=self.layer2_input,n_in=nkerns[1]*4*4,n_out=500,activation=T.tanh)
         for i in xrange(self.n_layers):
             # construct the sigmoidal layer
 
@@ -112,7 +113,7 @@ class DBN(object):
             # hidden layer below or the input of the DBN if you are on
             # the first layer
             if i == 0:
-                layer_input = self.layer2_input
+                layer_input = self.layer2.output
             else:
                 layer_input = self.sigmoid_layers[-1].output
             
